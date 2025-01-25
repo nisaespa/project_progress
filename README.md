@@ -43,7 +43,6 @@ class Inventario:
             for producto in self.productos.values():
                 print(producto.detalles_producto())
 
-# Ejemplo de uso
 if __name__ == "__main__":
     inventario = Inventario()
 
