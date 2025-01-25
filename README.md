@@ -1,4 +1,4 @@
-# Sistema de inventario de una bodega
+# Warehouse Inventory System
 
 ```python
 class Producto:
