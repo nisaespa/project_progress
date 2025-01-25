@@ -1,86 +1,96 @@
 # Warehouse Inventory System
 
+
+## Flow charts:
+
+
+
+## Code preview:
 ```python
-class Producto:
-    def __init__(self, id_producto, nombre, precio, cantidad):
-        self.id_producto = id_producto
-        self.nombre = nombre
-        self.precio = precio
-        self.cantidad = cantidad
-
-    def detalles_producto(self):
-        return f"ID: {self.id_producto}, Nombre: {self.nombre}, Precio: {self.precio}, Cantidad: {self.cantidad}"
-
-class Inventario:
+class Product:
+    """This class represents a product with attributes such as ID, name, price, and quantity"""
+    def __init__(self, product_id, name, price, quantity):
+        self.product_id = product_id
+        self.name = name
+        self.price = price
+        self.quantity = quantity
+        
+    def product_details(self):
+        return (
+            f"ID: {self.product_id}, Name: {self.name}, Price: {self.price}, "
+            f"Quantity: {self.quantity}"
+            )
+class Inventory:
+    """This class manages a collection of products in the inventory"""
     def __init__(self):
-        self.productos = {}
+        self.products = {}
 
-    def agregar_producto(self, producto):
-        if producto.id_producto in self.productos:
-            print("El producto ya existe en el inventario.")
+    def add_product(self, product):
+        if product.product_id in self.products:
+            print("The product already exists in the inventory.")
         else:
-            self.productos[producto.id_producto] = producto
-            print("Producto agregado correctamente.")
+            self.products[product.product_id] = product
+            print("Product added successfully.")
 
-    def eliminar_producto(self, id_producto):
-        if id_producto in self.productos:
-            del self.productos[id_producto]
-            print("Producto eliminado correctamente.")
+    def remove_product(self, product_id):
+        if product_id in self.products:
+            del self.products[product_id]
+            print("Product removed successfully.")
         else:
-            print("El producto no existe en el inventario.")
+            print("The product does not exist in the inventory.")
 
-    def actualizar_cantidad(self, id_producto, nueva_cantidad):
-        if id_producto in self.productos:
-            self.productos[id_producto].cantidad = nueva_cantidad
-            print("Cantidad actualizada correctamente.")
+    def update_quantity(self, product_id, new_quantity):
+        if product_id in self.products:
+            self.products[product_id].quantity = new_quantity
+            print("Quantity updated successfully.")
         else:
-            print("El producto no existe en el inventario.")
+            print("The product does not exist in the inventory.")
 
-    def listar_productos(self):
-        if not self.productos:
-            print("El inventario está vacío.")
+    def list_products(self):
+        if not self.products:
+            print("The inventory is empty.")
         else:
-            for producto in self.productos.values():
-                print(producto.detalles_producto())
-
-if __name__ == "__main__":
-    inventario = Inventario()
-
+            for product in self.products.values():
+                print(product.product_details())
+def start_program():
+    inventory = Inventory()
     while True:
-        print("\nGestión de Inventario")
-        print("1. Agregar producto")
-        print("2. Eliminar producto")
-        print("3. Actualizar cantidad de producto")
-        print("4. Listar productos")
-        print("5. Salir")
-        opcion = input("Selecciona una opción: ")
+        print("\nInventory Management")
+        print("1. Add product")
+        print("2. Remove product")
+        print("3. Update product quantity")
+        print("4. List products")
+        print("5. Exit")
+        option = input("Select an option: ")
 
-        if opcion == "1":
-            id_producto = int(input("Ingresa el ID del producto: "))
-            nombre = input("Ingresa el nombre del producto: ")
-            precio = float(input("Ingresa el precio del producto: "))
-            cantidad = int(input("Ingresa la cantidad del producto: "))
-            producto = Producto(id_producto, nombre, precio, cantidad)
-            inventario.agregar_producto(producto)
+        if option == "1":
+            product_id = int(input("Enter the product ID: "))
+            name = input("Enter the product name: ")
+            price = float(input("Enter the product price: "))
+            quantity = int(input("Enter the product quantity: "))
+            product = Product(product_id, name, price, quantity)
+            inventory.add_product(product)
 
-        elif opcion == "2":
-            id_producto = int(input("Ingresa el ID del producto a eliminar: "))
-            inventario.eliminar_producto(id_producto)
+        elif option == "2":
+            product_id = int(input("Enter the product ID to remove: "))
+            inventory.remove_product(product_id)
 
-        elif opcion == "3":
-            id_producto = int(input("Ingresa el ID del producto a actualizar: "))
-            nueva_cantidad = int(input("Ingresa la nueva cantidad: "))
-            inventario.actualizar_cantidad(id_producto, nueva_cantidad)
+        elif option == "3":
+            product_id = int(input("Enter the product ID to update: "))
+            new_quantity = int(input("Enter the new quantity: "))
+            inventory.update_quantity(product_id, new_quantity)
 
-        elif opcion == "4":
-            inventario.listar_productos()
+        elif option == "4":
+            inventory.list_products()
 
-        elif opcion == "5":
-            print("Saliendo del programa...")
+        elif option == "5":
+            print("Exiting the program")
             break
 
         else:
-            print("Opción no válida. Intenta nuevamente.")
+            print("Invalid option. Please try again.") 
+if __name__ == "__main__":  
+    start_program()
 ```
 
 
