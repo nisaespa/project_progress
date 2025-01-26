@@ -109,7 +109,7 @@ class Product:
 
     def __str__(self):
         return (
-                f"ID: {self.id}, Name: {self.name}, Price: ${self.price:.2f}, "
+                f"ID: {self.id}, Name: {self.name}, Price: ${self.price:.3f}, "
                 f"Quantity: {self.quantity}, Category: {self.category}, "
                 f"Entry Date: {self.entry_date}, Exit Date: {self.exit_date or 'N/A'}""
                 )
