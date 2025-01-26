@@ -25,7 +25,7 @@ classDiagram
         + add_product(product : Product)
         + remove_product(id, product : Product)
         + update_quantity(id, new_quantity : float)
-        + list_inventory()
+        + list_products()
         + search_product(product : Product)
     }
 
@@ -124,42 +124,47 @@ class Inventory:
 
     """
     def __init__(self):
-        self.products = {}
+        self.products = []
 
-    def add_product(self, product):
-        if product.id in self.products:
+    def add_product(self, product: Product):
+        if any(p.id == product.id for p in self.products):
             print("The product already exists in the inventory.")
         else:
-            self.products[product.id] = product
-            print("Product added successfully.")
+            self.products.append(product)
+            print(f"Product {product.name} successfully added to inventory.")
 
-    def remove_product(self, id):
-        if id in self.products:
-            del self.products[id]
-            print("Product removed successfully.")
+    def remove_product(self, id: int):
+        product = self.search_product(id)
+        if product:
+            self.products.remove(product)
+            print(f"Product {product.name} removed successfully from inventory.")
         else:
-            print("The product does not exist in the inventory.")
+            print(f"Product with ID {id} not found.")
 
-    def update_quantity(self, id, new_quantity):
-        if id in self.products:
-            self.products[id].quantity = new_quantity
-            print("Quantity updated successfully.")
-        else:
-            print("Product with ID {id} not found.")
-
-    def list_products(self):
+    def list_inventory(self):
         print("\nCurrent Inventory:")
         if not self.products:
             print("The inventory is empty.")
-        else:
-            for product in self.products.values():
-                print(product.__str__())
+        for product in self.products:
+            print(product)
+
     def search_product(self, id: int):
         for product in self.products:
             if product.id == id:
                 return product
         print(f"Product with ID {id} not found.")
         return None
+
+    def update_quantity(self, id: int, new_quantity: int):
+        product = self.search_product(id)
+        if not product:
+            raise ValueError(f"Product with ID {id} not found.")  # Propaga la excepción si no existe el producto
+    
+        if new_quantity < 0:
+            raise ValueError("Quantity cannot be negative.")  # Propaga la excepción si la cantidad es negativa
+    
+        product.quantity = new_quantity
+        print(f"Successfully updated quantity of {product.name} to {product.quantity}.")
 
 
 def start_program():
