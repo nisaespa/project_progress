@@ -22,8 +22,8 @@ classDiagram
         +List~Product~ products
         +add_product(Product : product)
         +remove_product(id)
-        +list_inventory()
         +update_quantity(self, id, new_quantity)
+        +list_inventory(self)
         +search_product(id) Product
     }
 
@@ -59,13 +59,14 @@ class Product:
         __str__() -> str: 
             Returns product attributes.
     """
-    def __init__(self, id: int, name: str, price: float, quantity: int, category: str, entry_date: date):
+    def __init__(self, id: int, name: str, price: float, quantity: int, category: str, entry_date: date, exit_date: date = None):
         self.id = id
         self.name = name
         self.price = price
         self.quantity = quantity
         self.category = category
         self.entry_date = entry_date
+        self.exit_date = exit_date
 
     def register_entry(self, quantity: int):
         # Incrementar la cantidad del producto en el inventario
