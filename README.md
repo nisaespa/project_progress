@@ -15,7 +15,7 @@ classDiagram
         + exit_date : date
         +register_entry(self, quantity : int)
         +register_exit(self, quantity : int)
-        +__str __()
+        +__str __(self)
     }
 
     class Inventory {
@@ -92,9 +92,8 @@ class Product:
         return (
                 f"ID: {self.id}, Name: {self.name}, Price: ${self.price:.2f}, "
                 f"Quantity: {self.quantity}, Category: {self.category}, "
-                f"Entry Date: {self.entry_date}"
+                f"Entry Date: {self.entry_date}, Exit Date: {self.exit_date or 'N/A'}""
                 )
-    
 
 class Inventory:
     """
