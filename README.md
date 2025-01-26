@@ -3,7 +3,38 @@
 
 ## Flow charts:
 
+``` mermaid
+classDiagram
+    class Product {
+        + id : int
+        + name : string
+        + price : float
+        + quantity : int
+        + category : string
+        + entry_date : date
+        + exit_date : date
+        +register_entry(quantity : int)
+        +register_exit(quantity : int)
+        +__str __()
+    }
 
+    class Inventory {
+        +List~Product~ products
+        +add_product(Product : product)
+        +remove_product(id : int)
+        +list_inventory()
+        +search_product(id : int) Product
+    }
+
+    class Report {
+        +Inventory inventory
+        +generate_current_report(Document)
+        +generate_historical_report(Document)
+    }
+
+    Product --* Inventory
+    Inventory --* Report : "uses"
+```
 
 ## Code preview:
 ```python
