@@ -50,26 +50,28 @@ class Product:
         name (str): product name.
         price (float): product price.
         quantity (int): product quantity.
+        category (str): product category
+        entry_date (date): Date the product entered inventory
+        exit_date (date): Date the product left inventory
 
     Methods:
         __str__() -> str: 
             Returns product attributes.
     """
-    def __init__(self, product_id: int, name: str, price: float, quantity: int, category: str,
-                 entry_date: date, exit_date: Optional[date] = None):
+    def __init__(self, product_id: int, name: str, price: float, quantity: int, category: str, entry_date: date):
         self.product_id = product_id
         self.name = name
         self.price = price
         self.quantity = quantity
         self.category = category
         self.entry_date = entry_date
-        self.exit_date = exit_date
-        
+
     def __str__(self):
         return (
-            f"ID: {self.product_id}, Name: {self.name}, Price: {self.price}, "
-            f"Quantity: {self.quantity}"
-            )
+                f"ID: {self.product_id}, Name: {self.name}, Price: ${self.price:.2f}, "
+                f"Quantity: {self.quantity}, Category: {self.category}, "
+                f"Entry Date: {self.entry_date}"
+                )
     
 
 class Inventory:
@@ -102,6 +104,26 @@ class Inventory:
         if product_id in self.products:
             self.products[product_id].quantity = new_quantity
             print("Quantity updated successfully.")
+        else:
+            print("The product does not exist in the inventory.")
+
+    def register_entry(self, product_id, quantity):
+        # Increase quantity of product in the inventory
+        if product_id in self.products:
+            self.products[product_id].quantity += quantity
+            print(f"{quantity} units of {self.name} have been added. Total in inventory: {self.quantity}.")
+        else:
+            print("The product does not exist in the inventory.")
+       
+    def register_exit(self, product_id, quantity):
+        # Reduce quantity of product in the inventory
+        if product_id in self.products:
+            if quantity > self.quantity:
+                print(f"Not enough units of {self.name} to remove {quantity} units.")
+            else:
+                self.products[product_id].quantity -= quantity
+                print(f"{quantity} units of {self.name} have been removed. Total in inventory: {self.quantity}.")
+                print("Quantity updated successfully.")
         else:
             print("The product does not exist in the inventory.")
 
