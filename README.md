@@ -50,7 +50,7 @@ class Product:
         quantity (int): product quantity.
 
     Methods:
-        product_details() -> str: 
+        __str__() -> str: 
             Returns product attributes.
     """
     def __init__(self, product_id, name, price, quantity):
@@ -59,7 +59,7 @@ class Product:
         self.price = price
         self.quantity = quantity
         
-    def product_details(self):
+    def __str__(self):
         return (
             f"ID: {self.product_id}, Name: {self.name}, Price: {self.price}, "
             f"Quantity: {self.quantity}"
