@@ -8,20 +8,20 @@ classDiagram
     class Product {
         + id : int
         + name : string
-        + price : float
+        + _price : float
         + quantity : int
         + category : string
         + entry_date : date
         + exit_date : date
-        + register_entry(self, quantity : int)
-        + register_exit(self, quantity : int)
-        + get_price(self):
-        + set_price(self, value: float):
+        + register_entry(quantity : int)
+        + register_exit(quantity : int)
+        + get_price():
+        + set_price(value: float):
         + __str __(self)
     }
 
     class Inventory {
-        +List~Product~ products
+        +Product : list
         +add_product(Product : product)
         +remove_product(id)
         +update_quantity(self, id, new_quantity)
