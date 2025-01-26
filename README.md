@@ -36,7 +36,7 @@ classDiagram
     }
 
     Product --* Inventory
-    Inventory --* Report : "uses"
+    Inventory --* Report : employs
 ```
 
 ## Code preview:
