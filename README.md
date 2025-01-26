@@ -8,15 +8,15 @@ classDiagram
     class Product {
         + id : int
         + name : string
-        + _price : float
+        # price : float
         + quantity : int
         + category : string
         + entry_date : date
         + exit_date : date
         + register_entry(quantity : int)
         + register_exit(quantity : int)
-        + get_price() : float
-        + set_price(value : float) : Bool
+        # get_price() : float
+        # set_price(value : float) : Bool
         + __str __()
     }
 
