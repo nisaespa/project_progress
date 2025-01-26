@@ -38,6 +38,8 @@ classDiagram
 
 ## Code preview:
 ```python
+from datetime import date
+
 class Product:
     """
     This class represents a product with attributes such as ID, name, 
@@ -53,11 +55,15 @@ class Product:
         __str__() -> str: 
             Returns product attributes.
     """
-    def __init__(self, product_id, name, price, quantity):
+    def __init__(self, product_id: int, name: str, price: float, quantity: int, category: str,
+                 entry_date: date, exit_date: Optional[date] = None):
         self.product_id = product_id
         self.name = name
         self.price = price
         self.quantity = quantity
+        self.category = category
+        self.entry_date = entry_date
+        self.exit_date = exit_date
         
     def __str__(self):
         return (
