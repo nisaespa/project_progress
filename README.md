@@ -105,7 +105,7 @@ class Inventory:
 
     """
     def __init__(self):
-        self.products = {}
+        self.products = []
 
     def add_product(self, product):
         if product.id in self.products:
@@ -126,7 +126,7 @@ class Inventory:
             self.products[id].quantity = new_quantity
             print("Quantity updated successfully.")
         else:
-            print("The product does not exist in the inventory.")
+            print("Product with ID {id} not found.")
 
     def list_products(self):
         print("\nCurrent Inventory:")
@@ -159,7 +159,7 @@ def start_program():
             name = input("Enter the product name: ")
             price = float(input("Enter the product price: "))
             quantity = int(input("Enter the product quantity: "))
-            product = Product(product_id, name, price, quantity)
+            product = Product(id, name, price, quantity)
             inventory.add_product(product)
 
         elif option == "2":
@@ -169,7 +169,7 @@ def start_program():
         elif option == "3":
             product_id = int(input("Enter the product ID to update: "))
             new_quantity = int(input("Enter the new quantity: "))
-            inventory.update_quantity(product_id, new_quantity)
+            inventory.update_quantity(id, new_quantity)
 
         elif option == "4":
             inventory.list_products()
