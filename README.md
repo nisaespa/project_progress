@@ -84,7 +84,7 @@ class Product:
                 raise ValueError("Quantity must be greater than 0.")
             self.quantity += quantity
             print(f"{quantity} units of {self.name} have been added. Total in inventory: {self.quantity}.")
-        except ValueError as e:
+        except (ValueError, TypeError) as e:
             print(f"Error: {e}")
 
     def register_exit(self, quantity: int):
@@ -95,7 +95,7 @@ class Product:
                 raise ValueError("Not enough units in stock.")
             self.quantity -= quantity
             print(f"{quantity} units of {self.name} have been removed. Total in inventory: {self.quantity}.")
-        except ValueError as e:
+        except (ValueError, TypeError) as e:
             print(f"Error: {e}")
 
     def get_price(self):
@@ -156,14 +156,16 @@ class Inventory:
         return None
 
     def update_quantity(self, id: int, new_quantity: int):
-        product = self.search_product(id)
-        if not product:
-            raise ValueError(f"Product with ID {id} not found.")  # Exception if the ID doesn't exists
-        if new_quantity < 0:
-            raise ValueError("Quantity cannot be negative.")  # Exception if new_quantity is negative
-        product.quantity = new_quantity
-        print(f"Successfully updated quantity of {product.name} to {product.quantity}.")
-
+        try:
+            product = self.search_product(id)
+            if not product:
+                raise ValueError(f"Product with ID {id} not found.")  # Exception if the ID doesn't exists
+            if new_quantity < 0:
+                raise ValueError("Quantity cannot be negative.")  # Exception if new_quantity is negative
+            product.quantity = new_quantity
+            print(f"Successfully updated quantity of {product.name} to {product.quantity}.")
+        except (ValueError, TypeError) as e:
+            print(f"Error: {e}")
 
 def start_program():
     inventory = Inventory()
