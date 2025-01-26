@@ -130,11 +130,18 @@ class Inventory:
             print("The product does not exist in the inventory.")
 
     def list_products(self):
+        print("\nCurrent Inventory:")
         if not self.products:
             print("The inventory is empty.")
         else:
             for product in self.products.values():
-                print(product.product_details())
+                print(product.__str__())
+    def search_product(self, id: int):
+        for product in self.products:
+            if product.id == id:
+                return product
+        print(f"Product with ID {id} not found.")
+        return None
 
 
 def start_program():
