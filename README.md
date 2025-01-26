@@ -23,8 +23,8 @@ classDiagram
     class Inventory {
         + products : List~Product~ 
         + add_product(product : Product)
-        + remove_product(product : Product)
-        + update_quantity(new_quantity : float)
+        + remove_product(id, product : Product)
+        + update_quantity(id, new_quantity : float)
         + list_inventory()
         + search_product(product : Product)
     }
