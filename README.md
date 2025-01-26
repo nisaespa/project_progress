@@ -8,7 +8,20 @@
 ## Code preview:
 ```python
 class Product:
-    """This class represents a product with attributes such as ID, name, price, and quantity"""
+    """
+    This class represents a product with attributes such as ID, name, 
+    price, and quantity
+
+    Attributes: 
+        product_id (int): product id.
+        name (str): product name.
+        price (float): product price.
+        quantity (int): product quantity.
+
+    Methods:
+        product_details() -> str: 
+            Returns product attributes.
+    """
     def __init__(self, product_id, name, price, quantity):
         self.product_id = product_id
         self.name = name
@@ -20,8 +33,17 @@ class Product:
             f"ID: {self.product_id}, Name: {self.name}, Price: {self.price}, "
             f"Quantity: {self.quantity}"
             )
+    
+
 class Inventory:
-    """This class manages a collection of products in the inventory"""
+    """
+    This class manages a collection of products in the inventory.
+
+    Attributes: 
+
+    Methods:
+
+    """
     def __init__(self):
         self.products = {}
 
@@ -52,6 +74,8 @@ class Inventory:
         else:
             for product in self.products.values():
                 print(product.product_details())
+
+
 def start_program():
     inventory = Inventory()
     while True:
