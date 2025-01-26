@@ -21,18 +21,18 @@ classDiagram
     }
 
     class Inventory {
-        +products : List~Product~ 
-        +add_product(product : Product)
-        +remove_product(product : Product)
-        +update_quantity(id, new_quantity)
-        +list_inventory()
-        +search_product(id) Product
+        + products : List~Product~ 
+        + add_product(product : Product)
+        + remove_product(product : Product)
+        + update_quantity(new_quantity : float)
+        + list_inventory()
+        + search_product(product : Product)
     }
 
     class Report {
-        +Inventory inventory
-        +generate_current_report(Document)
-        +generate_historical_report(Document)
+        + Inventory inventory
+        + generate_current_report() Document
+        + generate_historical_report() Document
     }
 
     Product --* Inventory
@@ -124,7 +124,7 @@ class Inventory:
 
     """
     def __init__(self):
-        self.products = []
+        self.products = {}
 
     def add_product(self, product):
         if product.id in self.products:
