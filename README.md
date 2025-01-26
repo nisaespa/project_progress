@@ -13,9 +13,11 @@ classDiagram
         + category : string
         + entry_date : date
         + exit_date : date
-        +register_entry(self, quantity : int)
-        +register_exit(self, quantity : int)
-        +__str __(self)
+        + register_entry(self, quantity : int)
+        + register_exit(self, quantity : int)
+        + get_price(self):
+        + set_price(self, value: float):
+        + __str __(self)
     }
 
     class Inventory {
@@ -58,11 +60,19 @@ class Product:
     Methods:
         __str__() -> str: 
             Returns product attributes.
+        register_entry(self, quantity):
+            For increasing product quantity
+        register_exit(self, quantity):
+            For reducing product quantity
+        get_price(self):
+            Getter that returns product price
+        set_price(self, value) -> float:
+            Setter for product price
     """
     def __init__(self, id: int, name: str, price: float, quantity: int, category: str, entry_date: date, exit_date: date = None):
         self.id = id
         self.name = name
-        self.price = price
+        self._price = price
         self.quantity = quantity
         self.category = category
         self.entry_date = entry_date
@@ -87,6 +97,15 @@ class Product:
             print(f"{quantity} units of {self.name} have been removed. Total in inventory: {self.quantity}.")
         except ValueError as e:
             print(f"Error: {e}")
+
+    def get_price(self):
+        return self._price
+
+    def set_price(self, value: float):
+        if value <= 0:
+            raise ValueError("Price must be greater than 0.")
+        self._price = value
+
 
     def __str__(self):
         return (
