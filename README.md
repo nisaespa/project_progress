@@ -69,17 +69,24 @@ class Product:
         self.exit_date = exit_date
 
     def register_entry(self, quantity: int):
-        # Incrementar la cantidad del producto en el inventario
-        self.quantity += quantity
-        print(f"{quantity} units of {self.name} have been added. Total in inventory: {self.quantity}.")
+        try:
+            if quantity <= 0:
+                raise ValueError("Quantity must be greater than 0.")
+            self.quantity += quantity
+            print(f"{quantity} units of {self.name} have been added. Total in inventory: {self.quantity}.")
+        except ValueError as e:
+            print(f"Error: {e}")
 
     def register_exit(self, quantity: int):
-        # Reducir la cantidad del producto en el inventario
-        if quantity > self.quantity:
-            print(f"Not enough units of {self.name} to remove {quantity} units.")
-        else:
+        try:
+            if quantity <= 0:
+                raise ValueError("Quantity must be greater than 0.")
+            if quantity > self.quantity:
+                raise ValueError("Not enough units in stock.")
             self.quantity -= quantity
             print(f"{quantity} units of {self.name} have been removed. Total in inventory: {self.quantity}.")
+        except ValueError as e:
+            print(f"Error: {e}")
 
     def __str__(self):
         return (
