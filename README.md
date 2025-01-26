@@ -158,11 +158,9 @@ class Inventory:
     def update_quantity(self, id: int, new_quantity: int):
         product = self.search_product(id)
         if not product:
-            raise ValueError(f"Product with ID {id} not found.")  # Propaga la excepción si no existe el producto
-    
+            raise ValueError(f"Product with ID {id} not found.")  # Exception if the ID doesn't exists
         if new_quantity < 0:
-            raise ValueError("Quantity cannot be negative.")  # Propaga la excepción si la cantidad es negativa
-    
+            raise ValueError("Quantity cannot be negative.")  # Exception if new_quantity is negative
         product.quantity = new_quantity
         print(f"Successfully updated quantity of {product.name} to {product.quantity}.")
 
