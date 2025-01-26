@@ -15,15 +15,15 @@ classDiagram
         + exit_date : date
         + register_entry(quantity : int)
         + register_exit(quantity : int)
-        + get_price():
-        + set_price(value: float):
+        + get_price() :: float
+        + set_price(value: float):: Bool
         + __str __(self)
     }
 
     class Inventory {
         +Product : list
         +add_product(Product : product)
-        +remove_product(id) Product
+        +remove_product(id)
         +update_quantity(id, new_quantity)
         +list_inventory()
         +search_product(id) Product
