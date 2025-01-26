@@ -6,7 +6,7 @@
 ``` mermaid
 classDiagram
     class Product {
-        + id : int
+        + product_id : int
         + name : string
         + price : float
         + quantity : int
