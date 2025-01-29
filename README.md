@@ -6,9 +6,10 @@
 <figcaption><b></b></figcaption></figure>
 </div>
 
-### Problem Description
+### Description
 
-We are developing an inventory manager with the knowledge learned across this semester in order to use get a useful program
+We are developing an inventory manager with the knowledge learned across this semester in order to use get a useful program.
+the code is pretty basic at the moment, nowadays its useful, it use two principal classes, inventory wich is composed by product
 
 ## UML Class Diagrams:
 ``` mermaid
