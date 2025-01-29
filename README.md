@@ -6,7 +6,7 @@
 <figcaption><b></b></figcaption></figure>
 </div>
 
-## Como se abordaron el problema y la solución
+### Como se abordaron el problema y la solución
 
 asdjkhbasghjdjvasgh
 
