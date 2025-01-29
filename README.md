@@ -31,6 +31,8 @@ classDiagram
         + update_quantity(id, new_quantity : float)
         + list_products()
         + search_product(product : Product)
+        + @clear_screen()
+        + @pause()
     }
 
     class Report {
@@ -45,6 +47,7 @@ classDiagram
 
 ## Code preview:
 ```python
+import os
 from datetime import date
 
 class Product:
@@ -87,7 +90,7 @@ class Product:
             if quantity <= 0:
                 raise ValueError("Quantity must be greater than 0.")
             self.quantity += quantity
-            print(f"{quantity} units of {self.name} have been added. Total in inventory: {self.quantity}.")
+            print(f"\n{quantity} units of {self.name} have been added. Total in inventory: {self.quantity}.")
         except (ValueError, TypeError) as e:
             print(f"Error: {e}")
 
@@ -98,7 +101,7 @@ class Product:
             if quantity > self.quantity:
                 raise ValueError("Not enough units in stock.")
             self.quantity -= quantity
-            print(f"{quantity} units of {self.name} have been removed. Total in inventory: {self.quantity}.")
+            print(f"\n{quantity} units of {self.name} have been removed. Total in inventory: {self.quantity}.")
         except (ValueError, TypeError) as e:
             print(f"Error: {e}")
 
@@ -112,19 +115,30 @@ class Product:
 
 
     def __str__(self):
+        exit_date_str = self.exit_date if self.exit_date else "N/A"
         return (
-                f"ID: {self.id}, Name: {self.name}, Price: ${self.price:.3f}, "
+                f"ID: {self.id}, Name: {self.name}, Price: ${self._price:.2f}, "
                 f"Quantity: {self.quantity}, Category: {self.category}, "
-                f"Entry Date: {self.entry_date}, Exit Date: {self.exit_date or 'N/A'}""
+                f"Entry Date: {self.entry_date}, Exit Date: {exit_date_str}"
                 )
 
 class Inventory:
     """
     This class manages a collection of products in the inventory.
 
-    Attributes: 
+    Attributes: self, generates a list of products
 
     Methods:
+        add_product(self, product: Product):
+            Adds a new product to the inventory if its ID is not already in use.
+        remove_product(self, product_id: int):
+            Removes a product from the inventory by its ID, if found.
+        list_inventory(self):
+            Displays all current products in the inventory.
+        search_product(self, product_id: int):
+            Searches for a product by its ID and returns it if found, otherwise returns None.
+        update_quantity(self, product_id: int, new_quantity: int):
+            Updates the quantity of an existing product by its ID.
 
     """
     def __init__(self):
@@ -132,21 +146,21 @@ class Inventory:
 
     def add_product(self, product: Product):
         if any(p.id == product.id for p in self.products):
-            print("The product already exists in the inventory.")
+            print("\nThe product already exists in the inventory.")
         else:
             self.products.append(product)
-            print(f"Product {product.name} successfully added to inventory.")
+            print(f"\nProduct {product.name} successfully added to inventory.")
 
     def remove_product(self, id: int):
         product = self.search_product(id)
         if product:
             self.products.remove(product)
-            print(f"Product {product.name} removed successfully from inventory.")
+            print(f"\nProduct {product.name} removed successfully from inventory.")
         else:
-            print(f"Product with ID {id} not found.")
+            print(f"\nProduct with ID {id} not found.")
 
     def list_inventory(self):
-        print("\nCurrent Inventory:")
+        print("\n=== Current Inventory ===")
         if not self.products:
             print("The inventory is empty.")
         for product in self.products:
@@ -156,61 +170,115 @@ class Inventory:
         for product in self.products:
             if product.id == id:
                 return product
-        print(f"Product with ID {id} not found.")
+        print(f"\nProduct with ID {id} not found.")
         return None
 
     def update_quantity(self, id: int, new_quantity: int):
         try:
             product = self.search_product(id)
             if not product:
-                raise ValueError(f"Product with ID {id} not found.")  # Exception if the ID doesn't exists
+                raise ValueError(f"\nProduct with ID {id} not found.")  # Exception if the ID doesn't exists
             if new_quantity < 0:
-                raise ValueError("Quantity cannot be negative.")  # Exception if new_quantity is negative
+                raise ValueError("\nQuantity cannot be negative.")  # Exception if new_quantity is negative
             product.quantity = new_quantity
-            print(f"Successfully updated quantity of {product.name} to {product.quantity}.")
+            print(f"\nSuccessfully updated quantity of {product.name} to {product.quantity}.")
         except (ValueError, TypeError) as e:
             print(f"Error: {e}")
 
-def start_program():
+    @staticmethod
+    def clear_screen():
+        """Clears the console"""
+        os.system("cls" if os.name == "nt" else "clear")
+
+    @staticmethod
+    def pause():
+        """Pauses execution until user inputs Enter."""
+        input("\nPress Enter to continue ...")
+        Inventory.clear_screen()
+
+def main():
     inventory = Inventory()
     while True:
-        print("\nInventory Management")
+        print("\nInventory Management\n")
         print("1. Add product")
         print("2. Remove product")
-        print("3. Update product quantity")
-        print("4. List products")
-        print("5. Exit")
-        option = input("Select an option: ")
+        print("3. List products")
+        print("4. Search product with ID")
+        print("5. Update product quantity")
+        print("6. Register product ENTRY")
+        print("7. Register product EXIT")        
+        print("8. Exit")
+        option = input("\nSelect an option: ")
 
         if option == "1":
-            product_id = int(input("Enter the product ID: "))
+            id = int(input("Enter the product ID: "))
             name = input("Enter the product name: ")
             price = float(input("Enter the product price: "))
             quantity = int(input("Enter the product quantity: "))
-            product = Product(id, name, price, quantity)
+            category = input("Enter the product category: ")
+            entry_date = input("Enter the date the product entered inventory (Format: YYYY, MM, DD), for today's date just press Enter): ")
+            try:
+                year_str, month_str, day_str = entry_date.split(",")
+                year = int(year_str.strip())
+                month = int(month_str.strip())
+                day = int(day_str.strip())
+                entry_date = date(year, month, day)
+            except (ValueError, TypeError):
+                print("\nFormato de fecha inválido. Se usará la fecha de hoy.")
+                entry_date = date.today()
+            product = Product(id, name, price, quantity, category, entry_date)
             inventory.add_product(product)
-
+            Inventory.pause()
         elif option == "2":
-            product_id = int(input("Enter the product ID to remove: "))
-            inventory.remove_product(product_id)
-
+            id = int(input("Enter the product ID to remove: "))
+            inventory.remove_product(id)
+            Inventory.pause()
         elif option == "3":
-            product_id = int(input("Enter the product ID to update: "))
-            new_quantity = int(input("Enter the new quantity: "))
-            inventory.update_quantity(id, new_quantity)
-
+            inventory.list_inventory()
+            Inventory.pause()
         elif option == "4":
-            inventory.list_products()
-
+            id = int(input("Enter the product ID to search: "))        
+            inventory.search_product(id)
+            if product:
+                print(product)
+            else:
+                print(f"\nProduct with ID {id} not found.")
+            Inventory.pause()
         elif option == "5":
-            print("Exiting the program")
+            id = int(input("Enter the product ID to update: "))
+            new_quantity = int(input("Enter the new quantity: "))
+            inventory.update_quantity(id, new_quantity)   
+            Inventory.pause()    
+        elif option == "6":
+            id = int(input("Enter the product ID to register ENTRY: "))
+            quantity_to_add = int(input("Enter the quantity to add: "))
+            product_found = inventory.search_product(id)
+            if product_found:
+                product.register_entry(quantity_to_add)
+            else:
+                print(f"\nProduct with ID {id} not found.")
+            Inventory.pause()
+        elif option == "7":
+            id = int(input("Enter the product ID to register EXIT: "))
+            quantity_to_remove = int(input("Enter the quantity to remove: "))
+            product_found = inventory.search_product(id)
+            if product_found:
+                product.register_exit(quantity_to_remove)
+            else:
+                print(f"\nProduct with ID {id} not found.")
+            Inventory.pause()
+        elif option == "8":
+            print("\nExiting the program")
             break
-
         else:
-            print("Invalid option. Please try again.") 
+            print("\nInvalid option. Please try again.")
+            Inventory.pause()
+
+
 if __name__ == "__main__":  
-    start_program()
+    main()
 ```
+
 
 
 
