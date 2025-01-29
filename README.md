@@ -6,9 +6,9 @@
 <figcaption><b></b></figcaption></figure>
 </div>
 
-### Como se abordaron el problema y la solución
+### Problem Description
 
-
+We are developing an inventory manager with the knowledge learned across this semester in order to use get a useful program
 
 ## UML Class Diagrams:
 ``` mermaid
