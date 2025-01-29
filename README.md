@@ -8,7 +8,7 @@
 
 ### Como se abordaron el problema y la solución
 
-asdjkhbasghjdjvasgh
+
 
 ## UML Class Diagrams:
 ``` mermaid
@@ -279,7 +279,7 @@ def main():
             Inventory.pause()
 
         elif option == "8":
-            print("\nExiting the program")
+            print("\nInventory closed succesfully")
             break
 
         else:
