@@ -1,9 +1,8 @@
 # Warehouse Inventory System 📝
 
 ## ✧ Team Rocket ✧
-
 <div align='center'>
-<figure> <img src="https://raw.githubusercontent.com/nisaespa/project_progress/refs/heads/main/TeamrocketPOO.png" alt="" width="450" height="auto"/></br>
+<figure> <img src="https://raw.githubusercontent.com/nisaespa/project_progress/refs/heads/main/TeamRocket.png" alt="" width="450" height="auto"/></br>
 <figcaption><b></b></figcaption></figure>
 </div>
 
