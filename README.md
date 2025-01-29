@@ -36,7 +36,7 @@ classDiagram
     }
 
     class Report {
-        + Inventory inventory
+        + inventory : Inventory
         + generate_current_report() Document
         + generate_historical_report() Document
     }
@@ -229,13 +229,16 @@ def main():
             product = Product(id, name, price, quantity, category, entry_date)
             inventory.add_product(product)
             Inventory.pause()
+
         elif option == "2":
             id = int(input("Enter the product ID to remove: "))
             inventory.remove_product(id)
             Inventory.pause()
+
         elif option == "3":
             inventory.list_inventory()
             Inventory.pause()
+
         elif option == "4":
             id = int(input("Enter the product ID to search: "))        
             inventory.search_product(id)
@@ -244,11 +247,13 @@ def main():
             else:
                 print(f"\nProduct with ID {id} not found.")
             Inventory.pause()
+
         elif option == "5":
             id = int(input("Enter the product ID to update: "))
             new_quantity = int(input("Enter the new quantity: "))
             inventory.update_quantity(id, new_quantity)   
-            Inventory.pause()    
+            Inventory.pause()
+
         elif option == "6":
             id = int(input("Enter the product ID to register ENTRY: "))
             quantity_to_add = int(input("Enter the quantity to add: "))
@@ -258,6 +263,7 @@ def main():
             else:
                 print(f"\nProduct with ID {id} not found.")
             Inventory.pause()
+
         elif option == "7":
             id = int(input("Enter the product ID to register EXIT: "))
             quantity_to_remove = int(input("Enter the quantity to remove: "))
@@ -267,13 +273,14 @@ def main():
             else:
                 print(f"\nProduct with ID {id} not found.")
             Inventory.pause()
+
         elif option == "8":
             print("\nExiting the program")
             break
+
         else:
             print("\nInvalid option. Please try again.")
             Inventory.pause()
-
 
 if __name__ == "__main__":  
     main()
