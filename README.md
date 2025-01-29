@@ -6,6 +6,10 @@
 <figcaption><b></b></figcaption></figure>
 </div>
 
+## Como se abordó el problema y la solución
+
+asdjkhbasghjdjvasgh
+
 ## Flow charts:
 ``` mermaid
 classDiagram
