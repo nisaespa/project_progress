@@ -8,10 +8,9 @@
 
 ### Description
 
-We are developing an inventory manager with the knowledge learned across this semester in order to get a useful program.
-the code is pretty basic at the moment, nowadays its useful, it use two principal classes, inventory and product.
-inventory is composed by product; so product is used to save the information of the things that are in the inventory.
-then we have the class inventory which let search and update the amount of products 
+We are developing an inventory manager with the acquired knowledge across this semester in order to get a useful program.
+The code is pretty basic at the moment, nowadays its useful, it uses two principal classes, Inventory and Product.
+Inventory is composed by product; so Product is used to create the information of each product that is stored in the Inventory, and the metods for printing a string with a product characteristics, adding or removing a determinated quantity to an already created product, then we have the class Inventory that generates a list of the products and has metods that lets update the amount of a product, adding or removing products, printing the str of all the products contained on Inventory, and two static methods that are used for clearing the screen directly or pausing the execution of the program until the user presses Enter.  
 
 ## UML Class Diagrams:
 ``` mermaid
