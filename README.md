@@ -8,7 +8,7 @@
 
 ### Description
 
-We are developing an inventory manager with the knowledge learned across this semester in order to use get a useful program.
+We are developing an inventory manager with the knowledge learned across this semester in order to get a useful program.
 the code is pretty basic at the moment, nowadays its useful, it use two principal classes, inventory wich is composed by product
 
 ## UML Class Diagrams:
@@ -229,7 +229,7 @@ def main():
                 day = int(day_str.strip())
                 entry_date = date(year, month, day)
             except (ValueError, TypeError):
-                print("\nFormato de fecha inválido. Se usará la fecha de hoy.")
+                print("\nInvalid date format. Today's date will be used")
                 entry_date = date.today()
             product = Product(id, name, price, quantity, category, entry_date)
             inventory.add_product(product)
