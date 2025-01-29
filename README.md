@@ -1,6 +1,6 @@
-# <div align='center'> Warehouse Inventory System 📝
+# <div align='center'> Warehouse Inventory System 📝 </div>
 
-## <div align='center'> ✧ Team Rocket ✧
+## <div align='center'> ✧ Team Rocket ✧ </div>
 <div align='center'>
 <figure> <img src="https://raw.githubusercontent.com/nisaespa/project_progress/refs/heads/main/TeamRocket.png" alt="" width="450" height="auto"/></br>
 <figcaption><b></b></figcaption></figure>
@@ -10,7 +10,7 @@
 
 asdjkhbasghjdjvasgh
 
-## Flow charts:
+## UML Class Diagrams:
 ``` mermaid
 classDiagram
     class Product {
