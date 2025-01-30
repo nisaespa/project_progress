@@ -37,12 +37,15 @@ classDiagram
         + update_quantity(id, new_quantity : float)
         + list_products()
         + search_product(product : Product)
+        + save_to_csv(filename: str = "inventory.csv")
+        + load_from_csv(filename: str = "inventory.csv")
         + @clear_screen()
         + @pause()
     }
 
     class Report {
         + inventory : Inventory
+        + _generate_report_logic()
         + generate_current_report() Document
         + generate_historical_report() Document
     }
@@ -53,7 +56,9 @@ classDiagram
 
 ## Code preview:
 ```python
+import csv
 import os
+import threading
 from datetime import date
 
 class Product:
@@ -182,14 +187,84 @@ class Inventory:
     def update_quantity(self, id: int, new_quantity: int):
         try:
             product = self.search_product(id)
-            if not product:
-                raise ValueError(f"\nProduct with ID {id} not found.")  # Exception if the ID doesn't exists
+            if product is None:
+                raise ValueError(f"Product with ID {id} not found.") # Exception if the ID doesn't exists
+
+            if not isinstance(new_quantity, int):
+                raise TypeError("Quantity must be an integer.") # Exception is the quantity is not an integer
+
             if new_quantity < 0:
-                raise ValueError("\nQuantity cannot be negative.")  # Exception if new_quantity is negative
+                raise ValueError("Quantity cannot be negative.") # Exception if new_quantity is negative
+            
             product.quantity = new_quantity
-            print(f"\nSuccessfully updated quantity of {product.name} to {product.quantity}.")
+            print(f"Successfully updated quantity of {product.name} to {product.quantity}.\n")
+
         except (ValueError, TypeError) as e:
-            print(f"Error: {e}")
+            print(f"Error in update_quantity: {e}\n")
+
+    # -----------------------------
+    # Métodos para CSV
+    # -----------------------------
+    def save_to_csv(self, filename: str = "inventory.csv"):
+        # Saves the current inventory to a CSV file.
+        with open(filename, mode="w", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            # Encabezado
+            writer.writerow(["id", "name", "price", "quantity", "category", "entry_date", "exit_date"])
+            # Datos de cada producto
+            for product in self.products:
+                entry_date_str = product.entry_date.isoformat()
+                exit_date_str = product.exit_date.isoformat() if product.exit_date else ""
+                writer.writerow([
+                    product.id,
+                    product.name,
+                    product._price,
+                    product.quantity,
+                    product.category,
+                    entry_date_str,
+                    exit_date_str
+                ])
+        print(f"\nInventory saved to {filename} successfully.")
+
+    def load_from_csv(self, filename: str = "inventory.csv"):
+        # Loads products and information from a CSV file into the current inventory.
+        # Limpiamos la lista para "reconstruir" el inventario
+        self.products.clear()
+
+        # Verificamos si el archivo existe
+        if not os.path.exists(filename):
+            print(f"\nFile '{filename}' does not exist. Starting with an empty inventory.")
+            return
+
+        with open(filename, mode="r", encoding="utf-8") as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                product_id = int(row["id"])
+                name = row["name"]
+                price = float(row["price"])
+                quantity = int(row["quantity"])
+                category = row["category"]
+                
+                # Convertir string a date usando isoformat
+                entry_date_str = row["entry_date"]
+                exit_date_str = row["exit_date"]
+
+                entry_date = date.fromisoformat(entry_date_str) if entry_date_str else None
+                exit_date = date.fromisoformat(exit_date_str) if exit_date_str else None
+
+                new_product = Product(
+                    id=product_id,
+                    name=name,
+                    price=price,
+                    quantity=quantity,
+                    category=category,
+                    entry_date=entry_date,
+                    exit_date=exit_date
+                )
+                self.products.append(new_product)
+
+        print(f"\nInventory loaded from {filename} successfully.")
+
 
     @staticmethod
     def clear_screen():
@@ -202,6 +277,28 @@ class Inventory:
         input("\nPress Enter to continue ...")
         Inventory.clear_screen()
 
+class Report:
+# Class that manages reports of inventory
+    def __init__(self, inventory: Inventory):
+        self.inventory = inventory
+
+    def _generate_report_logic(self):
+        # Internal method to generate the report without blocking the main thread.
+        self.inventory.list_inventory()
+
+    def generate_current_report(self):
+        # Generates a report of the current inventory on a separated thread
+        print("Generating Current Inventory Report in background...\n")
+        thread = threading.Thread(target=self._generate_report_logic)
+        thread.start()
+
+    def generate_historical_report(self):
+        # Generates an historical report of inventory
+        print("Historical Inventory Report:")
+        for product in self.inventory.products:
+            print(f"Product: {product.name}, Entry Date: {product.entry_date}, "
+                  f"Exit Date: {product.exit_date or 'N/A'}")
+
 def main():
     inventory = Inventory()
     while True:
@@ -213,7 +310,9 @@ def main():
         print("5. Update product quantity")
         print("6. Register product ENTRY")
         print("7. Register product EXIT")        
-        print("8. Exit")
+        print("8. Save inventory to CSV")
+        print("9. Load inventory from CSV")
+        print("10. Exit")
         option = input("\nSelect an option: ")
 
         if option == "1":
@@ -281,6 +380,18 @@ def main():
             Inventory.pause()
 
         elif option == "8":
+            filename = input("Enter the CSV filename (default: 'inventory.csv'): ")
+            filename = filename.strip() if filename else "inventory.csv"
+            inventory.save_to_csv(filename)
+            Inventory.pause()
+
+        elif option == "9":
+            filename = input("Enter the CSV filename (default: 'inventory.csv'): ")
+            filename = filename.strip() if filename else "inventory.csv"
+            inventory.load_from_csv(filename)
+            Inventory.pause()
+
+        elif option == "10":
             print("\nInventory closed succesfully")
             break
 
