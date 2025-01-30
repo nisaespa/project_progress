@@ -18,7 +18,7 @@ classDiagram
     class Product {
         + id : int
         + name : string
-        # price : float
+        + _price : float
         + quantity : int
         + category : string
         + entry_date : date
